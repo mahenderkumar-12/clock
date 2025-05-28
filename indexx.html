@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Clock</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #2a0050 0%, #00002a 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            color: #e0e0e0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .container {
+            background-color: rgba(40, 0, 80, 0.4);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 60px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+            width: 100%;
+            max-width: 400px; /* Adjusted max-width for overall smaller size */
+            text-align: center;
+            border: 1px solid rgba(150, 0, 255, 0.5);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .clock-display {
+            font-size: 5rem;
+            font-weight: 800;
+            letter-spacing: 3px;
+            text-shadow: 0 0 20px rgba(150, 0, 255, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: baseline;
+            margin-bottom: 0;
+        }
+        /* Removed .clock-display .seconds styling as seconds are removed */
+
+        /* Responsive adjustments for mobile */
+        @media (max-width: 640px) {
+            .container {
+                padding: 20px; /* Reduced padding for smaller screens */
+            }
+            .clock-display {
+                font-size: 2.5rem; /* Further reduced font size for mobile */
+            }
+            /* Removed .clock-display .seconds styling for mobile */
+            h1 { /* Targeting the h1 for smaller font size on mobile */
+                font-size: 1.5rem; /* Tailwind's text-2xl is 1.5rem */
+                margin-bottom: 15px; /* Reduced margin for h1 */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-3xl font-bold mb-6">Digital Clock</h1>
+
+        <div id="digitalClock" class="clock-display">
+            <span id="hours">00</span>:<span id="minutes">00</span> <span id="ampm">AM</span>
+        </div>
+    </div>
+
+    <script>
+        // Get DOM elements for Digital Clock
+        const digitalClockDisplay = document.getElementById('digitalClock');
+        const hoursDisplay = document.getElementById('hours');
+        const minutesDisplay = document.getElementById('minutes');
+        // Removed secondsDisplay as seconds are removed
+        const ampmDisplay = document.getElementById('ampm');
+
+        /**
+         * Updates the digital clock display every second.
+         */
+        function updateClock() {
+            const now = new Date();
+            let hours = now.getHours();
+            let minutes = now.getMinutes();
+            // Removed seconds variable as seconds are removed
+            let ampm = 'AM';
+
+            // Convert to 12-hour format and set AM/PM
+            if (hours >= 12) {
+                ampm = 'PM';
+                if (hours > 12) {
+                    hours -= 12;
+                }
+            }
+            if (hours === 0) {
+                hours = 12; // Midnight (00:xx) becomes 12:xx AM
+            }
+
+            // Add leading zeros if necessary
+            hoursDisplay.textContent = String(hours).padStart(2, '0');
+            minutesDisplay.textContent = String(minutes).padStart(2, '0');
+            // Removed secondsDisplay update
+            ampmDisplay.textContent = ampm;
+        }
+
+        // Ensure DOM is fully loaded before initializing clock functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initial call to update clock immediately
+            updateClock();
+            // Update clock every second
+            setInterval(updateClock, 1000);
+        });
+    </script>
+</body>
+</html>
